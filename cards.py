@@ -37,4 +37,13 @@ class Card:
         
     def discard(self):
         self.isDiscarded = True
+    
+    def print(self):
+        print(self.face)
         
+# Declare deck as a list of 52 cards.
+deck = [Card()] * 52
+
+# Initialize deck.
+for i in 52:
+    
