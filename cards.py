@@ -6,11 +6,11 @@ SUIT = [
     "Spades",
     "Hearts",
     "Diamonds",
-    "Clubs",
+    "Clubs"
 ]
 VALUE = [
     "Ace",
-    "Teo",
+    "Two",
     "Three",
     "Four",
     "Five",
@@ -29,17 +29,14 @@ class Card:
     def __init__(self):
         self.suit = SUIT[0]
         self.value = VALUE[0]
-        self.face = unicodedata.lookup("Playing Card " + self.value)
+        self.face = unicodedata.lookup("Playing Card Back")
         self.isDiscarded = False
         
     def setCard(self, suit, value):
         self.suit = suit
         self.value = value
-        if value != BACK:
-            self.face = unicodedata.lookup("Playing Card " + value + " of " + suit)
-        else:
-            self.face = unicodedata.lookup("Playing Card " + value)
-    
+        self.face = unicodedata.lookup("Playing Card " + value + " of " + suit)
+
     def discard(self):
         self.isDiscarded = True
     
@@ -47,13 +44,19 @@ class Card:
         print(self.face)
         
 def initializeDeck(deck):
-    n = 0
-    for i in SUIT:
-        for j in VALUE:
-            deck[n
-            
+    for i in range(52):
+        deck.append(Card())
+
+    # Variable for current card being updated. Loops update the entire deck,
+    card = 0
+    for i in range(len(SUIT)):
+        for j in range(len(VALUE)):
+            deck[card].setCard(SUIT[i], VALUE[j])
+            card += 1
 
 # Declare deck as a list of 52 cards.
-deck = [Card()] * 52
-
+deck = []
 initializeDeck(deck)
+
+for i in range(len(deck)):
+    deck[i].print()
