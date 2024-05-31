@@ -1,14 +1,14 @@
 import random
 import unicodedata
 
-# Define constants for card suits and value.
+# Define constants for card suits and rank.
 SUIT = [
     "Spades",
     "Hearts",
     "Diamonds",
     "Clubs"
 ]
-VALUE = [
+RANK = [
     "Ace",
     "Two",
     "Three",
@@ -28,14 +28,14 @@ class Card:
     # Blank card by default
     def __init__(self):
         self.suit = SUIT[0]
-        self.value = VALUE[0]
+        self.rank = RANK[0]
         self.face = unicodedata.lookup("Playing Card Back")
         self.isDiscarded = False
         
-    def setCard(self, suit, value):
+    def setCard(self, suit, rank):
         self.suit = suit
-        self.value = value
-        self.face = unicodedata.lookup("Playing Card " + value + " of " + suit)
+        self.rank = rank
+        self.face = unicodedata.lookup("Playing Card " + rank + " of " + suit)
 
     def discard(self):
         self.isDiscarded = True
@@ -50,8 +50,8 @@ def initializeDeck(deck):
     # Variable for current card being updated, Loops update the entire deck.
     card = 0
     for i in range(len(SUIT)):
-        for j in range(len(VALUE)):
-            deck[card].setCard(SUIT[i], VALUE[j])
+        for j in range(len(RANK)):
+            deck[card].setCard(SUIT[i], RANK[j])
             card += 1
 
 # Declare deck as a list of 52 cards.
