@@ -41,7 +41,7 @@ class Card:
         self.isDiscarded = True
     
     def print(self):
-        print(self.face)
+        print(self.face + " " + self.rank + " of " + self.suit)
         
 def initializeDeck(deck):
     for i in range(52):
