@@ -47,7 +47,7 @@ def initializeDeck(deck):
     for i in range(52):
         deck.append(Card())
 
-    # Variable for current card being updated. Loops update the entire deck,
+    # Variable for current card being updated, Loops update the entire deck.
     card = 0
     for i in range(len(SUIT)):
         for j in range(len(VALUE)):
@@ -57,6 +57,6 @@ def initializeDeck(deck):
 # Declare deck as a list of 52 cards.
 deck = []
 initializeDeck(deck)
-
+# TEST: Print all elements in deck to see if it displays correctly.
 for i in range(len(deck)):
     deck[i].print()
