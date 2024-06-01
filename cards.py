@@ -38,12 +38,15 @@ class Card:
         self.rank = rank
         self.face = unicodedata.lookup("Playing Card " + rank + " of " + suit)
 
+    def draw(self):
+        pass
+
     def discard(self):
         self.isDiscarded = True
     
     def print(self):
         print(self.face + " " + self.rank + " of " + self.suit)
-        
+
 # Initialize the deck to a standard 52 card deck.
 def initializeDeck(deck):
     for i in range(52):
@@ -145,7 +148,12 @@ High Card: (No cards of matching rank or suit.
 # Declare deck as a list of 52 cards.
 deck = []
 initializeDeck(deck)
-# TEST: Print all elements in deck to see if it displays correctly.
+
+# TEST: Shuffle and print deck.
 for i in deck:
     i.print()
-explain()
+
+print("\n\n")
+random.shuffle(deck)
+for i in deck:
+    i.print()
