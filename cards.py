@@ -70,11 +70,11 @@ def initializeDeck(deck):
 # Draw cards from deck. Will draw as many as needed to fill hand to 5 cards.
 def draw(deck):
     played = 0
-    for i in deck:
+    for i in deck: # Check to see if 5 cards are already in play.
         if i.getPlayState() == True:
             played += 1
         if played >= 5:
-            break
+            return
 
     for i in deck:
         if played < 5 and i.getDiscardState() == False and i.getPlayState() == False:
@@ -84,6 +84,18 @@ def draw(deck):
             if played >= 5:
                 break
 
+def discard(deck):
+    if discards == 0:
+        print("No more discards remaining.")
+        return
+
+    cards = []
+    for i in deck:
+        if i.getPlayState() == True:
+            cards.append(i)
+        if len(cards) == 5:
+            break
+    
 # Explain how each poker hand works.
 def explain():
     print(
@@ -167,10 +179,21 @@ High Card: (No cards of matching rank or suit.
 🃅 Five of Diamonds
 🂪 Ten of Spades
 🂾 King of Hearts
+
+In order to try and make the best possible hand, 3 discards may be used.
+You may discard up to 5 cards per discard. For example:
+
+Given this hand. Typing "discard 1 2 3 4 5" would discard each card in the hand.
+🂡 Ace of Spades
+🂳 Three of Hearts
+🃅 Five of Diamonds
+🂪 Ten of Spades
+🂾 King of Hearts
 """
         )
 
 discards = DISCARDS
 deck = []
 initializeDeck(deck)
+random.shuffle(deck)
 draw(deck)
