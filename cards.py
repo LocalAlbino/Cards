@@ -23,6 +23,8 @@ RANK = [
     "Queen",
     "King"
 ]
+# Declare number of discards per hand.
+DISCARDS = 3
 
 class Card:
     # Blank card by default
@@ -38,8 +40,14 @@ class Card:
         self.rank = rank
         self.face = unicodedata.lookup("Playing Card " + rank + " of " + suit)
 
-    def draw(self):
-        pass
+    def getDiscardState(self):
+        return self.isDiscarded
+
+    def getPlayState(self):
+        return self.isPlayed
+
+    def play(self):
+        self.isPlayed = True
 
     def discard(self):
         self.isDiscarded = True
@@ -58,6 +66,23 @@ def initializeDeck(deck):
         for j in RANK:
             deck[card].setCard(i, j)
             card += 1
+
+# Draw cards from deck. Will draw as many as needed to fill hand to 5 cards.
+def draw(deck):
+    played = 0
+    for i in deck:
+        if i.getPlayState() == True:
+            played += 1
+        if played >= 5:
+            break
+
+    for i in deck:
+        if played < 5 and i.getDiscardState() == False and i.getPlayState() == False:
+            i.print()
+            i.play()
+            played += 1
+            if played >= 5:
+                break
 
 # Explain how each poker hand works.
 def explain():
@@ -145,15 +170,7 @@ High Card: (No cards of matching rank or suit.
 """
         )
 
-# Declare deck as a list of 52 cards.
+discards = DISCARDS
 deck = []
 initializeDeck(deck)
-
-# TEST: Shuffle and print deck.
-for i in deck:
-    i.print()
-
-print("\n\n")
-random.shuffle(deck)
-for i in deck:
-    i.print()
+draw(deck)
