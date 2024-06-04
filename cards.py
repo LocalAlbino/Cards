@@ -52,6 +52,10 @@ class Card:
     def discard(self):
         self.isDiscarded = True
     
+    def reset(self):
+        self.isPlayed = False
+        self.isDiscarded = False
+
     def print(self):
         print(self.face + " " + self.rank + " of " + self.suit)
 
@@ -70,16 +74,16 @@ def initializeDeck(deck):
 # Draw cards from deck. Will draw as many as needed to fill hand to 5 cards.
 def draw(deck):
     played = 0
-    for i in deck: # Check to see if 5 cards are already in play.
-        if i.getPlayState() == True:
+    for card in deck: # Check to see if 5 cards are already in play.
+        if card.getPlayState() == True:
             played += 1
         if played >= 5:
             return
 
-    for i in deck:
-        if played < 5 and i.getDiscardState() == False and i.getPlayState() == False:
-            i.print()
-            i.play()
+    for card in deck:
+        if played < 5 and card.getDiscardState() == False and card.getPlayState() == False:
+            card.print()
+            card.play()
             played += 1
             if played >= 5:
                 break
@@ -89,13 +93,27 @@ def discard(deck):
         print("No more discards remaining.")
         return
 
+    # Find cards that can be discarded.
     cards = []
-    for i in deck:
-        if i.getPlayState() == True:
-            cards.append(i)
+    for card in deck:
+        if card.getPlayState() == True:
+            cards.append(card)
         if len(cards) == 5:
             break
-    
+
+def getInput():
+    # Get user input.
+    inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
+    if lower(inp) == "play":
+        return # FIXME: Create a way to play hands.
+    elif lower(inp) == "help":
+        explain()
+    elif lower(inp) == "discard":
+        discard()
+    elif lower(inp) == "quit":
+        quit()
+    else:
+        return # FIXME: Create prompt to re-enter.
 # Explain how each poker hand works.
 def explain():
     print(
@@ -183,7 +201,8 @@ High Card: (No cards of matching rank or suit.
 In order to try and make the best possible hand, 3 discards may be used.
 You may discard up to 5 cards per discard. For example:
 
-Given this hand. Typing "discard 1 2 3 4 5" would discard each card in the hand.
+Given this hand. Type "discard" and then type
+"1 2 3 4 5" in the next prompt to discard each card in the hand.
 🂡 Ace of Spades
 🂳 Three of Hearts
 🃅 Five of Diamonds
@@ -191,9 +210,9 @@ Given this hand. Typing "discard 1 2 3 4 5" would discard each card in the hand.
 🂾 King of Hearts
 """
         )
+    getInput()
 
 discards = DISCARDS
 deck = []
 initializeDeck(deck)
-random.shuffle(deck)
-draw(deck)
+
