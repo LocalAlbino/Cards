@@ -66,18 +66,19 @@ def initializeDeck(deck):
 
     # Variable for current card being updated, Loops update the entire deck.
     card = 0
-    for i in SUIT:
-        for j in RANK:
-            deck[card].setCard(i, j)
+    for suit in SUIT:
+        for rank in RANK:
+            deck[card].setCard(suit, rank)
             card += 1
 
 # Draw cards from deck. Will draw as many as needed to fill hand to 5 cards.
-def draw(deck):
+def draw(deck, discards):
     played = 0
     for card in deck: # Check to see if 5 cards are already in play.
         if card.getPlayState() == True:
             played += 1
         if played >= 5:
+            getInput()
             return
 
     for card in deck:
@@ -87,12 +88,27 @@ def draw(deck):
             played += 1
             if played >= 5:
                 break
+    getInput()
+    return
 
-def discard(deck):
+def discard(deck, discards):
     if discards == 0:
         print("No more discards remaining.")
+        getInput()
         return
 
+    # Get input from user and loop while it is not a digit or "cancel".
+    inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
+    for i in inp:
+        if i.isdigit() == False and i.issapce() == False:
+            break # Break from loop if current iteration is nt a digit or whitespace.
+        elif i.isspace() == True: # Skip current iteration if whitespace.
+            continue
+        else:
+            
+        print("Try again.")
+        inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
+ 
     # Find cards that can be discarded.
     cards = []
     for card in deck:
@@ -101,19 +117,31 @@ def discard(deck):
         if len(cards) == 5:
             break
 
-def getInput():
+
+
+def play():
+
+def getInput(deck, discards):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
-    if lower(inp) == "play":
-        return # FIXME: Create a way to play hands.
-    elif lower(inp) == "help":
-        explain()
-    elif lower(inp) == "discard":
-        discard()
-    elif lower(inp) == "quit":
-        quit()
-    else:
-        return # FIXME: Create prompt to re-enter.
+    inp = lower(inp) 
+
+    # Loop until a valid choice is entered.
+    while inp != "play" or inp != "help" or inp != "discard" or inp != "quit":
+        print("Try again.")
+        inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n"")
+        inp = lower(inp)
+
+    match inp:
+        case "play":
+            play(deck)
+        case "discard":
+            discard(deck, discards)
+        case "help":
+            explain()
+        case "quit":
+            quit()
+
 # Explain how each poker hand works.
 def explain():
     print(
@@ -203,16 +231,18 @@ You may discard up to 5 cards per discard. For example:
 
 Given this hand. Type "discard" and then type
 "1 2 3 4 5" in the next prompt to discard each card in the hand.
-🂡 Ace of Spades
-🂳 Three of Hearts
-🃅 Five of Diamonds
-🂪 Ten of Spades
-🂾 King of Hearts
+🂡 Ace of Spades     #1
+🂳 Three of Hearts   #2
+🃅 Five of Diamonds  #3
+🂪 Ten of Spades     #4
+🂾 King of Hearts    #5
 """
         )
-    getInput()
+    getInput(deck, discards)
 
 discards = DISCARDS
 deck = []
 initializeDeck(deck)
+random.shuffle(deck)
 
+getInput(deck, discards)
