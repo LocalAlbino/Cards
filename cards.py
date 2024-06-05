@@ -105,7 +105,7 @@ def discard(deck, discards):
         elif i.isspace() == True: # Skip current iteration if whitespace.
             continue
         else:
-            
+            return # FIXME: Finish for loop.
         print("Try again.")
         inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
  
