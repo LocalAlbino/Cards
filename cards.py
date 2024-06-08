@@ -78,7 +78,6 @@ def draw(deck, discards):
         if card.getPlayState() == True:
             played += 1
         if played >= 5:
-            getInput()
             return
 
     for card in deck:
@@ -88,13 +87,11 @@ def draw(deck, discards):
             played += 1
             if played >= 5:
                 break
-    getInput()
     return
 
 def discard(deck, discards):
     if discards == 0:
         print("No more discards remaining.")
-        getInput()
         return
 
     # Get input from user and loop while it is not a digit or "cancel".
@@ -120,27 +117,30 @@ def discard(deck, discards):
 
 
 def play():
-
+    pass # FIXME: Complete function body.
+    
 def getInput(deck, discards):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
     inp = lower(inp) 
 
-    # Loop until a valid choice is entered.
-    while inp != "play" or inp != "help" or inp != "discard" or inp != "quit":
-        print("Try again.")
-        inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n"")
-        inp = lower(inp)
+    # Loop while a valod choice is entered.
+    while inp != "quit":
+        match inp:
+            case "play":
+                play(deck)
+            case "discard":
+                discard(deck, discards)
+            case "help":
+                explain()
+                
+        # Prompt user for correct input.
+        if inp != "play" or inp != "discard" or inp != "help"
+            print("Try again.")
+            inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n"")
+            inp = lower(inp)
 
-    match inp:
-        case "play":
-            play(deck)
-        case "discard":
-            discard(deck, discards)
-        case "help":
-            explain()
-        case "quit":
-            quit()
+    quit() # Exit the programz
 
 # Explain how each poker hand works.
 def explain():
