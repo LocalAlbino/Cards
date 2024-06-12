@@ -133,9 +133,7 @@ def getInput(deck, discards):
                 discard(deck, discards)
             case "help":
                 explain()
-                
-        # Prompt user for correct input.
-        if inp != "play" or inp != "discard" or inp != "help"
+            case _: # Prompt user for input again.
             print("Try again.")
             inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n"")
             inp = lower(inp)
