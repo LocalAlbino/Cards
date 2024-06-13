@@ -102,7 +102,8 @@ def discard(deck, discards):
         elif i.isspace() == True: # Skip current iteration if whitespace.
             continue
         else:
-            return # FIXME: Finish for loop.
+            if int(i) < 6:
+                pass # FIXME: Finish doscard.
         print("Try again.")
         inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
  
@@ -236,7 +237,6 @@ Given this hand. Type "discard" and then type
 🂾 King of Hearts    #5
 """
         )
-    getInput(deck, discards)
 
 discards = DISCARDS
 deck = []
