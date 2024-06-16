@@ -23,6 +23,19 @@ RANK = [
     "Queen",
     "King"
 ]
+# Define constant for hand types.
+HANDS = [
+    "Royal Flush"
+    "Straight Flush",
+    "Four of a Kind",
+    "Full House",
+    "Flush",
+    "Straight",
+    "Three of a Kind",
+    "Two Pair",
+    "Pair",
+    "High Card"
+]
 # Declare number of discards per hand.
 DISCARDS = 3
 
@@ -82,12 +95,10 @@ def draw(deck):
 
     for card in deck:
         if played < 5 and card.getDiscardState() == False and card.getPlayState() == False:
-            card.print()
             card.play()
             played += 1
             if played >= 5:
-                break
-    return
+                return
 
 def discard(deck, discards):
     played = []
@@ -103,39 +114,65 @@ def discard(deck, discards):
         return
 
     # Get input from user and loop while it is not a digit or "cancel".
-    inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
+    inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel\n")
+    if inp.lower() == "cancel": # Cancel discard.
+        return
+
     for i in inp:
         if i.isdigit() == True and int(i) < 6 and int(i) > 0:
             played[int(i) - 1].reset()
             played[int(i) - 1].discard()
-            discards -= 1
         elif i.isspace() == True:
             continue
         else:
             print("Invalid input. Try again.")
-            inp = input("Choose \"1, 2, 3, 4, 5\".")
+            inp = input("Choose \"1, 2, 3, 4, 5\" or \"cancel\"\n")
             i = inp[0] # Reset i to beginning of list.
 
+    discards -= 1
 
+def printHand(deck):
+    played = 0 # Counter for cards played.
+    print("Your hand:")
 
-def play():
-    pass # FIXME: Complete function body.
-    
+    for card in deck:
+        if card.getPlayState() == True:
+            card.print()
+            played += 1
+        if played >= 5:
+            print("\0")
+            return
+
+def play(deck):
+    played = [] # Get a list of all played cards. Will be used for scoring.
+    for card in deck:
+        if card.getPlayState == True:
+            played.append(card)
+        if len(played) >= 5:
+            break
+
 def getInput(deck, discards):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
 
-    # Loop while a valod choice is entered.
+    # Loop while "quit" is not entered.
     while inp.lower() != "quit":
         match inp.lower():
             case "play":
                 play(deck)
+                printHand(deck)
+                inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
             case "discard":
                 discard(deck, discards)
                 draw(deck)
+                printHand(deck)
+                inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
             case "help":
                 explain()
+                printHand(deck)
+                inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
             case _: # Prompt user for input again.
+                printHand(deck)
                 print("Try again.")
                 inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
 
@@ -238,13 +275,11 @@ Given this hand. Type "discard" and then type
 """
         )
 
+# Main
 discards = DISCARDS
 deck = []
 initializeDeck(deck)
 random.shuffle(deck)
-# TEST: See if discard works.
-for card in range(5):
-    deck[card].play()
-    deck[card].print()
-
+draw(deck)
+printHand(deck)
 getInput(deck, discards)
