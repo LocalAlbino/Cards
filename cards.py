@@ -72,7 +72,7 @@ def initializeDeck(deck):
             card += 1
 
 # Draw cards from deck. Will draw as many as needed to fill hand to 5 cards.
-def draw(deck, discards):
+def draw(deck):
     played = 0
     for card in deck: # Check to see if 5 cards are already in play.
         if card.getPlayState() == True:
@@ -90,6 +90,14 @@ def draw(deck, discards):
     return
 
 def discard(deck, discards):
+    played = []
+    # Get a list of played cards.
+    for card in deck:
+        if card.getPlayState() == True:
+            played.append(card)
+        if len(played) >= 5:
+            break
+
     if discards == 0:
         print("No more discards remaining.")
         return
@@ -97,23 +105,16 @@ def discard(deck, discards):
     # Get input from user and loop while it is not a digit or "cancel".
     inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
     for i in inp:
-        if i.isdigit() == False and i.issapce() == False:
-            break # Break from loop if current iteration is nt a digit or whitespace.
-        elif i.isspace() == True: # Skip current iteration if whitespace.
+        if i.isdigit() == True and int(i) < 6 and int(i) > 0:
+            played[int(i) - 1].reset()
+            played[int(i) - 1].discard()
+            discards -= 1
+        elif i.isspace() == True:
             continue
         else:
-            if int(i) < 6:
-                pass # FIXME: Finish doscard.
-        print("Try again.")
-        inp = input("Choose which cards to discard. \"1, 2, 3, 4, or 5\". (Multiple may be selected at once.)\nType \"cancel\" to cancel")
- 
-    # Find cards that can be discarded.
-    cards = []
-    for card in deck:
-        if card.getPlayState() == True:
-            cards.append(card)
-        if len(cards) == 5:
-            break
+            print("Invalid input. Try again.")
+            inp = input("Choose \"1, 2, 3, 4, 5\".")
+            i = inp[0] # Reset i to beginning of list.
 
 
 
@@ -123,7 +124,7 @@ def play():
 def getInput(deck, discards):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
-    inp = lower(inp) 
+    inp = casefold(inp) 
 
     # Loop while a valod choice is entered.
     while inp != "quit":
@@ -132,12 +133,13 @@ def getInput(deck, discards):
                 play(deck)
             case "discard":
                 discard(deck, discards)
+                draw(deck)
             case "help":
                 explain()
             case _: # Prompt user for input again.
-            print("Try again.")
-            inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n"")
-            inp = lower(inp)
+                print("Try again.")
+                inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
+                inp = casefold(inp)
 
     quit() # Exit the programz
 
@@ -242,5 +244,9 @@ discards = DISCARDS
 deck = []
 initializeDeck(deck)
 random.shuffle(deck)
+# TEST: See if discard works.
+for card in range(5):
+    deck[card].play()
+    deck[card].print()
 
 getInput(deck, discards)
