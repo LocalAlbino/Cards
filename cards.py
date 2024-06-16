@@ -124,11 +124,10 @@ def play():
 def getInput(deck, discards):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
-    inp = casefold(inp) 
 
     # Loop while a valod choice is entered.
-    while inp != "quit":
-        match inp:
+    while inp.lower() != "quit":
+        match inp.lower():
             case "play":
                 play(deck)
             case "discard":
@@ -139,7 +138,6 @@ def getInput(deck, discards):
             case _: # Prompt user for input again.
                 print("Try again.")
                 inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
-                inp = casefold(inp)
 
     quit() # Exit the programz
 
