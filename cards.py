@@ -36,8 +36,6 @@ HANDS = [
     "Pair",
     "High Card"
 ]
-# Declare number of discards per hand.
-DISCARDS = 3
 
 class Card:
     # Blank card by default
@@ -151,10 +149,11 @@ def play(deck):
         if len(played) >= 5:
             break
 
-def getInput(deck, discards):
+def getInput(deck):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
-
+    discards = 3 # Setup discards.
+    
     # Loop while "quit" is not entered.
     while inp.lower() != "quit":
         match inp.lower():
@@ -276,7 +275,6 @@ Given this hand. Type "discard" and then type
         )
 
 # Main
-discards = DISCARDS
 deck = []
 initializeDeck(deck)
 random.shuffle(deck)
