@@ -36,6 +36,8 @@ HANDS = [
     "Pair",
     "High Card"
 ]
+# Number of discards per round.
+discards: int = 3
 
 class Card:
     # Blank card by default
@@ -98,7 +100,8 @@ def draw(deck):
             if played >= 5:
                 return
 
-def discard(deck, discards):
+def discard(deck):
+    global discards # Get reference to discards.
     played = []
     # Get a list of played cards.
     for card in deck:
@@ -106,8 +109,10 @@ def discard(deck, discards):
             played.append(card)
         if len(played) >= 5:
             break
-
-    if discards == 0:
+    
+    if discards > 0:
+        print(discards," discard(s) remaining.")
+    else:
         print("No more discards remaining.")
         return
 
@@ -152,7 +157,6 @@ def play(deck):
 def getInput(deck):
     # Get user input.
     inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
-    discards = 3 # Setup discards.
     
     # Loop while "quit" is not entered.
     while inp.lower() != "quit":
@@ -162,7 +166,7 @@ def getInput(deck):
                 printHand(deck)
                 inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
             case "discard":
-                discard(deck, discards)
+                discard(deck)
                 draw(deck)
                 printHand(deck)
                 inp = input("Type \"play\", \"help\", \"discard\", or \"quit\".\n")
@@ -280,4 +284,4 @@ initializeDeck(deck)
 random.shuffle(deck)
 draw(deck)
 printHand(deck)
-getInput(deck, discards)
+getInput(deck)
