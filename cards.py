@@ -74,9 +74,6 @@ class Card:
 
 # Initialize the deck to a standard 52 card deck.
 def initializeDeck(deck):
-    for i in range(52):
-        deck.append(Card())
-
     # Variable for current card being updated, Loops update the entire deck.
     card = 0
     for suit in SUIT:
@@ -153,6 +150,7 @@ def play(deck):
             played.append(card)
         if len(played) >= 5:
             break
+    # TODO: Display current hand scoring, reset discards, reshuffle and draw.
 
 def getInput(deck):
     # Get user input.
@@ -279,7 +277,7 @@ Given this hand. Type "discard" and then type
         )
 
 # Main
-deck = []
+deck = [] * 52
 initializeDeck(deck)
 random.shuffle(deck)
 draw(deck)
